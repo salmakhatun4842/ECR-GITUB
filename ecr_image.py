@@ -1,27 +1,37 @@
 import boto3
 
-client = boto3.client('ecr', region_name='us-east-1')
+def delete_old_ecr_images(repository_name):
+    ecr_client = boto3.client('ecr')
 
-repository_name = 'salma'
+    # Retrieve the list of images in the specified repository
+    response = ecr_client.list_images(repositoryName=repository_name)
 
-# Get list of images
-images = client.describe_images(repositoryName=repository_name)['imageDetails']
+    # Get the image IDs
+    image_ids = response.get('imageIds', [])
 
-# Find the latest image
-latest_image = max(images, key=lambda x: x['imagePushedAt'])
+    # Create a list to hold the images that need to be deleted
+    images_to_delete = []
 
-# Get a list of image digests that are not the latest
-non_latest_images = [image['imageDigest'] for image in images if image != latest_image]
+    # Check each image to see if it is tagged with "latest"
+    for image in image_ids:
+        if 'imageTag' in image and image['imageTag'] != 'latest':
+            images_to_delete.append(image)
 
-# Delete non-latest images
-if non_latest_images:
-    response = client.batch_delete_image(
-        repositoryName=salma,
-        imageIds=[{'imageDigest': digest} for digest in non_latest_images]
-    )
-    print(f"Deleted {len(response['imageIds'])} images.")
-else:
-    print("No images to delete.")  # Closing parenthesis fixed here
+    # If there are images to delete, proceed to delete them
+    if images_to_delete:
+        print(f"Deleting the following images from '{repository_name}':")
+        for image in images_to_delete:
+            print(f" - {image['imageDigest']} with tag {image['imageTag']}")
+        
+        delete_response = ecr_client.batch_delete_image(
+            repositoryName=repository_name,
+            imageIds=images_to_delete
+        )
+        print("Deletion response:", delete_response)
+    else:
+        print("No images to delete.")
 
-# print("Markdown Table:\n")
-# print(markdown_table)
+if __name__ == "__main__":
+    # Replace with your ECR repository name
+    repository_name = 'salma'
+    delete_old_ecr_images(repository_name)
