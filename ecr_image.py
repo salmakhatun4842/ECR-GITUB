@@ -23,5 +23,5 @@ if non_latest_images:
 else:
     print("No images to delete.")  # Closing parenthesis fixed here
 
-print("Markdown Table:\n")
-print(markdown_table)
+# print("Markdown Table:\n")
+# print(markdown_table)
