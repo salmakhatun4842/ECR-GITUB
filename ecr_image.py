@@ -17,7 +17,7 @@ non_latest_images = [image for image in images if image != latest_image]
 markdown_table = "| Image Digest | Pushed At |\n|--------------|-----------|\n"
 if non_latest_images:
     response = client.batch_delete_image(
-        repositoryName=repository_name,
+        repositoryName=testing,
         imageIds=[{'imageDigest': image['imageDigest']} for image in non_latest_images]
     )
     for image in non_latest_images:
