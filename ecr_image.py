@@ -14,17 +14,17 @@ latest_image = max(images, key=lambda x: x['imagePushedAt'])
 non_latest_images = [image for image in images if image != latest_image]
 
 # Delete non-latest images and prepare Markdown table
-markdown_table = "| Image Digest | Pushed At |\n|--------------|-----------|\n"
-if non_latest_images:
-    response = client.batch_delete_image(
-        repositoryName=testing,
-        imageIds=[{'imageDigest': image['imageDigest']} for image in non_latest_images]
-    )
-    for image in non_latest_images:
-        markdown_table += f"| {image['imageDigest']} | {image['imagePushedAt']} |\n"
-    print(f"Deleted {len(response['imageIds'])} images.")
-else:
-    print("No images to delete.")
+# markdown_table = "| Image Digest | Pushed At |\n|--------------|-----------|\n"
+# if non_latest_images:
+#     response = client.batch_delete_image(
+#         repositoryName=testing,
+#         imageIds=[{'imageDigest': image['imageDigest']} for image in non_latest_images]
+#     )
+#     for image in non_latest_images:
+#         markdown_table += f"| {image['imageDigest']} | {image['imagePushedAt']} |\n"
+#     print(f"Deleted {len(response['imageIds'])} images.")
+# else:
+#     print("No images to delete.")
 
-print("Markdown Table:\n")
+# print("Markdown Table:\n")
 print
