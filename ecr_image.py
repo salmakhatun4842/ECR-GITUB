@@ -21,8 +21,7 @@ if non_latest_images:
     )
     print(f"Deleted {len(response['imageIds'])} images.")
 else:
-    print("No images to delete."
-#     print("No images to delete.")
+    print("No images to delete.")  # Closing parenthesis fixed here
 
-# print("Markdown Table:\n")
-print
+print("Markdown Table:\n")
+print(markdown_table)
