@@ -2,7 +2,7 @@ import boto3
 
 client = boto3.client('ecr', region_name='us-west-2')
 
-repository_name = 'your-repo-name'
+repository_name = 'testing'
 
 # Get list of images
 images = client.describe_images(repositoryName=repository_name)['imageDetails']
