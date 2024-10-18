@@ -1,6 +1,6 @@
 import boto3
 
-client = boto3.client('ecr', region_name='us-east-1)
+client = boto3.client('ecr', region_name='us-east-1')
 
 repository_name = 'testing'
 
